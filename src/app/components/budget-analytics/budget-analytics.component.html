@@ -1,0 +1,150 @@
+<main class="analytics-page">
+  <!-- Hero Section -->
+  <section class="hero-section">
+    <div class="hero-content">
+      <p class="tagline">RESOURCE ALLOCATION &amp; LIMITS</p>
+      <h1>Budget Targets &amp;<br /><span>Category Analytics</span></h1>
+      <p class="subtitle">
+        Visualizing category spending vs monthly limits. State is preserved across routes
+        using Angular's singleton <code>FinanceStoreService</code>.
+      </p>
+    </div>
+
+    <!-- Navigation Back -->
+    <div class="hero-actions">
+      <a class="btn btn-secondary" routerLink="/transactions">
+        ← Back via routerLink (Declarative)
+      </a>
+      <button class="btn btn-primary" (click)="navigateBack()">
+        ← Back via Router.navigate() (Programmatic)
+      </button>
+    </div>
+  </section>
+
+  <!-- Budget Overview KPI -->
+  <section class="overview-panel">
+    <div class="overview-header">
+      <div>
+        <span class="label">MONTHLY CEILING</span>
+        <h2>${{ store.monthlyBudget() | number:'1.2-2' }}</h2>
+      </div>
+      <div>
+        <span class="label">COMMITTED SPENDING</span>
+        <h2 class="text-red">${{ store.summary().totalExpenses | number:'1.2-2' }}</h2>
+      </div>
+      <div>
+        <span class="label">REMAINING ALLOWANCE</span>
+        <h2 [class.text-green]="store.monthlyBudget() - store.summary().totalExpenses >= 0"
+            [class.text-red]="store.monthlyBudget() - store.summary().totalExpenses < 0">
+          ${{ (store.monthlyBudget() - store.summary().totalExpenses) | number:'1.2-2' }}
+        </h2>
+      </div>
+    </div>
+  </section>
+
+  <!-- Category Breakdown Grid rendered with @for and @switch -->
+  <section class="category-grid-section">
+    <h2>Category Budgets &amp; Utilization (&#64;for &amp; &#64;switch)</h2>
+
+    <div class="category-cards">
+      <!-- Modern Control Flow: @for -->
+      @for (budget of store.categoryBudgets(); track budget.category) {
+        <div class="budget-card" [style.--accent]="budget.color">
+          <div class="card-top">
+            <span class="category-icon">{{ budget.icon }}</span>
+
+            <!-- Modern Control Flow: @switch on Category Type -->
+            @switch (budget.category) {
+              @case ('Housing') {
+                <span class="badge badge-housing">Essential Living</span>
+              }
+              @case ('Food') {
+                <span class="badge badge-food">Nutrition</span>
+              }
+              @case ('Tech') {
+                <span class="badge badge-tech">Tools &amp; Cloud</span>
+              }
+              @case ('Transport') {
+                <span class="badge badge-transport">Mobility</span>
+              }
+              @case ('Entertainment') {
+                <span class="badge badge-entertainment">Lifestyle</span>
+              }
+              @case ('Investments') {
+                <span class="badge badge-investments">Wealth Building</span>
+              }
+              @default {
+                <span class="badge">Discretionary</span>
+              }
+            }
+          </div>
+
+          <h3>{{ budget.category }}</h3>
+          <div class="budget-amounts">
+            <span>Spent: <strong>${{ budget.spent | number:'1.2-2' }}</strong></span>
+            <span>Limit: ${{ budget.allocated | number:'1.2-2' }}</span>
+          </div>
+
+          <!-- Progress Bar -->
+          <div class="progress-bar-bg">
+            <div
+              class="progress-bar-fill"
+              [style.width.%]="calculatePercent(budget.spent, budget.allocated)"
+              [style.background-color]="budget.spent > budget.allocated ? '#ef4444' : budget.color"
+            ></div>
+          </div>
+
+          <!-- Modern Control Flow: @if for Overrun Alerts -->
+          <div class="card-footer">
+            <small>{{ calculatePercent(budget.spent, budget.allocated) }}% Utilized</small>
+            @if (budget.spent > budget.allocated) {
+              <span class="overrun-tag">Exceeded by ${{ (budget.spent - budget.allocated) | number:'1.2-2' }}</span>
+            } @else {
+              <span class="safe-tag">${{ (budget.allocated - budget.spent) | number:'1.2-2' }} left</span>
+            }
+          </div>
+        </div>
+      }
+    </div>
+  </section>
+
+  <!-- Live Financial API Gateway Demo (Injectable Service DI) -->
+  <section class="gateway-panel">
+    <div class="gateway-header">
+      <div>
+        <h3>Currency Gateway Service (Dependency Injection)</h3>
+        <p>Demonstrates simulated asynchronous HTTP data fetching via RxJS <code>Observable</code>.</p>
+      </div>
+      <button class="btn btn-outline" (click)="refreshCurrencyRates()" [disabled]="isLoadingRates()">
+        {{ isLoadingRates() ? 'Fetching rates...' : '↻ Refresh Rates' }}
+      </button>
+    </div>
+
+    <!-- Modern Control Flow: @if -->
+    @if (exchangeData(); as rates) {
+      <div class="rates-grid">
+        <div class="rate-card">
+          <small>Base</small>
+          <strong>1.00 USD</strong>
+        </div>
+        <div class="rate-card">
+          <small>EUR (Euro)</small>
+          <strong>€{{ rates.rates['EUR'] }}</strong>
+        </div>
+        <div class="rate-card">
+          <small>GBP (British Pound)</small>
+          <strong>£{{ rates.rates['GBP'] }}</strong>
+        </div>
+        <div class="rate-card">
+          <small>INR (Indian Rupee)</small>
+          <strong>₹{{ rates.rates['INR'] }}</strong>
+        </div>
+        <div class="rate-card">
+          <small>JPY (Japanese Yen)</small>
+          <strong>¥{{ rates.rates['JPY'] }}</strong>
+        </div>
+      </div>
+      <small class="timestamp">Simulated rate snapshot as of {{ rates.timestamp }}</small>
+    }
+  </section>
+</main>

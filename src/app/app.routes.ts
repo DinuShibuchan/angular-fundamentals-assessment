@@ -1,25 +1,25 @@
 import { Routes } from '@angular/router';
-import { ArchitecturePageComponent } from './components/architecture-page.component';
-import { RoutingExampleComponent } from './components/routing-example.component';
+import { TransactionsLedgerComponent } from './components/transactions-ledger/transactions-ledger.component';
+import { BudgetAnalyticsComponent } from './components/budget-analytics/budget-analytics.component';
 
 export const routes: Routes = [
   {
-    path: 'architecture',
-    component: ArchitecturePageComponent,
-    title: 'Architecture Lab | Angular Fundamentals'
+    path: 'transactions',
+    component: TransactionsLedgerComponent,
+    title: 'SpendWise | Transactions Ledger'
   },
   {
-    path: 'routing-example',
-    component: RoutingExampleComponent,
-    title: 'Routing Example | Angular Fundamentals'
+    path: 'budget-analytics',
+    component: BudgetAnalyticsComponent,
+    title: 'SpendWise | Budget Analytics'
   },
   {
     path: '',
     pathMatch: 'full',
-    redirectTo: 'architecture'
+    redirectTo: 'transactions'
   },
   {
     path: '**',
-    redirectTo: 'architecture'
+    redirectTo: 'transactions'
   }
 ];

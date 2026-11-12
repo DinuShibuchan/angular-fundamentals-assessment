@@ -1,32 +1,35 @@
 <header>
-  <a routerLink="/architecture" class="brand">
-    <span class="badge-icon">A</span>
-    <span>Angular <strong>Fundamentals</strong></span>
+  <a routerLink="/transactions" class="brand">
+    <span class="brand-icon">💳</span>
+    <span>Spend<strong>Wise</strong></span>
   </a>
 
   <nav>
     <a
-      routerLink="/architecture"
+      routerLink="/transactions"
       routerLinkActive="active"
       [routerLinkActiveOptions]="{ exact: false }"
     >
-      Architecture Lab
+      Transactions Ledger
     </a>
     <a
-      routerLink="/routing-example"
+      routerLink="/budget-analytics"
       routerLinkActive="active"
       [routerLinkActiveOptions]="{ exact: false }"
     >
-      Routing Example
+      Budget Analytics
     </a>
   </nav>
 
-  <span class="header-tag">Angular Standalone App</span>
+  <div class="header-status">
+    <span class="status-dot"></span>
+    <span class="status-text">Currency: USD ($)</span>
+  </div>
 </header>
 
 <router-outlet></router-outlet>
 
 <footer>
-  <span>Angular Fundamentals Assessment &copy; {{ currentYear }} Dinu Shibuchan</span>
-  <span>Clean Architecture · Standalone Components · DI · Routing · Modern Control Flow</span>
+  <span>SpendWise &copy; {{ currentYear }} Dinu Shibuchan — Personal Wealth &amp; Budget Tracker</span>
+  <span>Angular Standalone · DI Services · Two-Way Routing · Modern Control Flow</span>
 </footer>

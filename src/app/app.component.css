@@ -1,92 +1,105 @@
 header {
   align-items: center;
-  border-bottom: 1px solid #2a4261;
+  border-bottom: 1px solid #1e293b;
   display: flex;
   gap: 24px;
-  height: 70px;
-  margin: auto;
-  max-width: 1120px;
-  padding: 0 28px;
+  height: 72px;
+  margin: 0 auto;
+  max-width: 1140px;
+  padding: 0 24px;
 }
 
 .brand {
   align-items: center;
-  color: #eaf5ff;
+  color: #f8fafc;
   display: flex;
   gap: 10px;
-  font-size: 0.95rem;
-  font-weight: 700;
+  font-size: 1.15rem;
+  font-weight: 800;
   text-decoration: none;
+  letter-spacing: -0.03em;
 }
 
-.badge-icon {
-  background: #2dd4bf;
+.brand-icon {
+  background: #0284c7;
   border-radius: 8px;
-  color: #0f172a;
-  font-weight: 900;
-  padding: 6px 10px;
-  font-size: 0.9rem;
+  padding: 6px 8px;
+  font-size: 1rem;
 }
 
 .brand strong {
-  color: #60a5fa;
+  color: #38bdf8;
 }
 
 nav {
   display: flex;
-  gap: 12px;
+  gap: 10px;
 }
 
 nav a {
-  color: #91a9c4;
-  font-size: 0.84rem;
+  color: #94a3b8;
+  font-size: 0.85rem;
   font-weight: 600;
   text-decoration: none;
-  padding: 6px 12px;
-  border-radius: 6px;
+  padding: 8px 14px;
+  border-radius: 8px;
   transition: all 0.2s ease;
 }
 
 nav a:hover {
   color: #ffffff;
-  background: #182840;
+  background: #1e293b;
 }
 
 nav a.active {
-  color: #2dd4bf;
-  background: #13334c;
+  color: #38bdf8;
+  background: #0c4a6e44;
+  border: 1px solid #0284c7;
 }
 
-.header-tag {
-  color: #6f88a4;
-  font-size: 0.74rem;
+.header-status {
   margin-left: auto;
-  font-family: monospace;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: #0b1425;
+  border: 1px solid #1e293b;
+  padding: 6px 12px;
+  border-radius: 999px;
+  font-size: 0.74rem;
+  color: #94a3b8;
+}
+
+.status-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #34d399;
 }
 
 footer {
-  border-top: 1px solid #2a4261;
-  color: #7089a5;
+  border-top: 1px solid #1e293b;
+  color: #64748b;
   display: flex;
-  font-size: 0.75rem;
+  font-size: 0.76rem;
   justify-content: space-between;
-  padding: 22px max(28px, calc((100vw - 1064px) / 2));
+  padding: 24px max(24px, calc((100vw - 1140px) / 2));
 }
 
 @media (max-width: 640px) {
   header {
     padding: 0 16px;
-    gap: 14px;
+    gap: 12px;
   }
 
-  .header-tag {
+  .header-status {
     display: none;
   }
 
   footer {
     display: block;
-    padding: 18px 16px;
     text-align: center;
+    padding: 20px 16px;
   }
 
   footer span:last-child {

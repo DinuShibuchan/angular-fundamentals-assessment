@@ -1,0 +1,225 @@
+<main class="ledger-page">
+  <!-- Hero Section -->
+  <section class="hero-section">
+    <div class="hero-content">
+      <p class="tagline">SMART FINANCIAL INTELLIGENCE</p>
+      <h1>Personal Wealth &amp;<br /><span>Expense Ledger</span></h1>
+      <p class="subtitle">
+        Track cashflows, manage recurring budgets, and inspect financial allocations
+        powered by modern Angular standalone components and reactive Signals.
+      </p>
+    </div>
+
+    <!-- Quick Navigation to Second Route -->
+    <div class="hero-actions">
+      <button class="btn btn-secondary" (click)="toggleAddForm()">
+        {{ isAdding() ? '✕ Close Quick Form' : '+ New Transaction' }}
+      </button>
+      <button class="btn btn-primary" (click)="openBudgetAnalytics()">
+        View Budget Analytics →
+      </button>
+    </div>
+  </section>
+
+  <!-- KPI Summary Cards -->
+  <section class="kpi-grid">
+    <div class="kpi-card income-kpi">
+      <span class="kpi-label">TOTAL INCOME</span>
+      <strong class="kpi-value text-green">${{ store.summary().totalIncome | number:'1.2-2' }}</strong>
+      <small class="kpi-subtext">Active earnings &amp; salary</small>
+    </div>
+
+    <div class="kpi-card expense-kpi">
+      <span class="kpi-label">TOTAL EXPENSES</span>
+      <strong class="kpi-value text-red">${{ store.summary().totalExpenses | number:'1.2-2' }}</strong>
+      <small class="kpi-subtext">Across all categories</small>
+    </div>
+
+    <div class="kpi-card savings-kpi">
+      <span class="kpi-label">NET BALANCE / SAVINGS</span>
+      <strong class="kpi-value text-blue">${{ store.summary().netSavings | number:'1.2-2' }}</strong>
+      <small class="kpi-subtext">Net liquid surplus</small>
+    </div>
+
+    <div class="kpi-card rate-kpi">
+      <span class="kpi-label">SAVINGS RATE</span>
+      <strong class="kpi-value text-teal">{{ store.summary().savingsRate | number:'1.1-1' }}%</strong>
+      <small class="kpi-subtext">Target: &gt; 20% savings</small>
+    </div>
+  </section>
+
+  <!-- Modern Control Flow: @if for Budget Warning Banner -->
+  @if (store.summary().totalExpenses > store.monthlyBudget()) {
+    <div class="alert-banner warning">
+      <span class="alert-icon">⚠️</span>
+      <div>
+        <strong>Budget Threshold Exceeded!</strong>
+        <p>Total expenditures (${{ store.summary().totalExpenses | number:'1.2-2' }}) have surpassed the monthly budget limit of ${{ store.monthlyBudget() | number:'1.2-2' }}.</p>
+      </div>
+    </div>
+  }
+
+  <!-- Add Transaction Drawer / Form -->
+  @if (isAdding()) {
+    <section class="add-form-panel">
+      <h3>Record New Financial Transaction</h3>
+      <div class="form-grid">
+        <div class="form-group">
+          <label for="tx-title">Description / Vendor</label>
+          <input
+            id="tx-title"
+            type="text"
+            [(ngModel)]="newTitle"
+            placeholder="e.g. Trader Joe's Groceries"
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="tx-amount">Amount (USD)</label>
+          <input
+            id="tx-amount"
+            type="number"
+            [(ngModel)]="newAmount"
+            placeholder="e.g. 85.50"
+            min="0.01"
+            step="0.01"
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="tx-type">Flow Type</label>
+          <select id="tx-type" [(ngModel)]="newType">
+            <option value="expense">Expense (-)</option>
+            <option value="income">Income (+)</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="tx-category">Category</label>
+          <select id="tx-category" [(ngModel)]="newCategory">
+            <option *ngFor="let cat of categories" [value]="cat">{{ cat }}</option>
+          </select>
+        </div>
+
+        <div class="form-group full-width">
+          <label for="tx-notes">Notes (Optional)</label>
+          <input
+            id="tx-notes"
+            type="text"
+            [(ngModel)]="newNotes"
+            placeholder="Optional context or memo"
+          />
+        </div>
+      </div>
+
+      <div class="form-actions">
+        <button class="btn btn-secondary" (click)="toggleAddForm()">Cancel</button>
+        <button class="btn btn-primary" (click)="submitTransaction()">Save to Ledger</button>
+      </div>
+    </section>
+  }
+
+  <!-- Filter & Ledger Section -->
+  <section class="ledger-section">
+    <div class="section-header">
+      <div>
+        <h2>Transactions History</h2>
+        <p>Filtered view rendered with modern Angular <code>&#64;for</code> and dynamic <code>&#64;switch</code> badges.</p>
+      </div>
+
+      <!-- Category Filter Pills -->
+      <div class="filter-pills">
+        <button
+          class="pill"
+          [class.active]="store.selectedFilter() === 'All'"
+          (click)="store.setFilter('All')"
+        >
+          All ({{ store.transactions().length }})
+        </button>
+        @for (cat of categories; track cat) {
+          <button
+            class="pill"
+            [class.active]="store.selectedFilter() === cat"
+            (click)="store.setFilter(cat)"
+          >
+            {{ cat }}
+          </button>
+        }
+      </div>
+    </div>
+
+    <!-- Ledger Table rendered with @for -->
+    <div class="table-container">
+      <table class="ledger-table">
+        <thead>
+          <tr>
+            <th>Date</th>
+            <th>Description &amp; Method</th>
+            <th>Category (&#64;switch)</th>
+            <th>Amount</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Modern Control Flow: @for -->
+          @for (tx of store.filteredTransactions(); track tx.id) {
+            <tr>
+              <td class="date-cell">{{ tx.date }}</td>
+              <td class="desc-cell">
+                <strong>{{ tx.title }}</strong>
+                <span class="method-tag">{{ tx.paymentMethod }}</span>
+                @if (tx.notes) {
+                  <small class="tx-notes">{{ tx.notes }}</small>
+                }
+              </td>
+              <td>
+                <!-- Modern Control Flow: @switch on Category -->
+                @switch (tx.category) {
+                  @case ('Food') {
+                    <span class="badge badge-food">🥗 Food &amp; Dining</span>
+                  }
+                  @case ('Tech') {
+                    <span class="badge badge-tech">💻 Tech &amp; Cloud</span>
+                  }
+                  @case ('Housing') {
+                    <span class="badge badge-housing">🏠 Housing &amp; Rent</span>
+                  }
+                  @case ('Transport') {
+                    <span class="badge badge-transport">🚆 Transit &amp; Travel</span>
+                  }
+                  @case ('Entertainment') {
+                    <span class="badge badge-entertainment">🎬 Leisure &amp; Fun</span>
+                  }
+                  @case ('Investments') {
+                    <span class="badge badge-investments">📈 Investments &amp; Equities</span>
+                  }
+                  @default {
+                    <span class="badge">General</span>
+                  }
+                }
+              </td>
+              <td class="amount-cell" [class.is-income]="tx.type === 'income'" [class.is-expense]="tx.type === 'expense'">
+                {{ tx.type === 'income' ? '+' : '-' }}${{ tx.amount | number:'1.2-2' }}
+              </td>
+              <td>
+                <button
+                  class="btn-delete"
+                  title="Remove transaction"
+                  (click)="store.deleteTransaction(tx.id)"
+                >
+                  ✕
+                </button>
+              </td>
+            </tr>
+          } @empty {
+            <tr>
+              <td colspan="5" class="empty-state">
+                No transactions found for category "{{ store.selectedFilter() }}".
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  </section>
+</main>
