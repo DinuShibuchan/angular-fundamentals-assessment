@@ -1,0 +1,39 @@
+<main class="page">
+  <section class="hero">
+    <p class="eyebrow">ROUTER DEMONSTRATION</p>
+    <h1>One URL, <span>One Screen.</span></h1>
+    <p class="lede">
+      Angular Routes map browser URLs directly to standalone components.
+      This dedicated screen is rendered inside <code>&lt;router-outlet&gt;</code> at route <code>/routing-example</code>.
+    </p>
+  </section>
+
+  <section class="panel route-card">
+    <div class="card-header">
+      <span class="badge badge-coral">Active Route: /routing-example</span>
+      <span class="badge badge-teal">Component: RoutingExampleComponent</span>
+    </div>
+
+    <h3>Route Configuration (<code>src/app/app.routes.ts</code>)</h3>
+    <pre><code>export const routes: Routes = [
+  &#123; path: 'architecture', component: ArchitecturePageComponent &#125;,
+  &#123; path: 'routing-example', component: RoutingExampleComponent &#125;,
+  &#123; path: '', pathMatch: 'full', redirectTo: 'architecture' &#125;,
+  &#123; path: '**', redirectTo: 'architecture' &#125;
+];</code></pre>
+
+    <div class="state-box">
+      <h4>Shared Service State across Routes</h4>
+      <p>
+        Currently selected layer in <code>ArchitectureStoreService</code>:
+        <strong>{{ store.selectedName() }}</strong> ({{ store.selected().file }})
+      </p>
+      <small>Demonstrates Dependency Injection: Root-provided services remain active singletons across route transitions.</small>
+    </div>
+
+    <div class="navigation-actions">
+      <a class="action" routerLink="/architecture">← Back via routerLink (Declarative)</a>
+      <button class="action action-outline" (click)="navigateBack()">← Back via Router.navigate() (Programmatic)</button>
+    </div>
+  </section>
+</main>

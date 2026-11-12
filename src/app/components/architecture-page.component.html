@@ -1,0 +1,130 @@
+<main class="page">
+  <section class="hero">
+    <p class="eyebrow">INTERACTIVE LEARNING LAB</p>
+    <h1>Angular Architecture,<br /><span>Made Visible.</span></h1>
+    <p class="lede">
+      Trace a request from the browser into standalone components, injected services,
+      state, routing, and modern control flow.
+    </p>
+    <div class="status">
+      <i></i>
+      <span>Reactive Signals · {{ store.layers().length }} Architecture Layers Online</span>
+    </div>
+  </section>
+
+  <!-- Control Flow Section: Demonstrating @for, @switch, and @if -->
+  <section class="grid">
+    <div class="panel rail">
+      <div class="heading">
+        <b>01</b>
+        <div>
+          <h2>Application Flow</h2>
+          <p>Choose an architecture layer to inspect (rendered with <code>&#64;for</code>).</p>
+        </div>
+      </div>
+
+      <!-- Modern Angular Control Flow: @for -->
+      @for (layer of store.layers(); track layer.name) {
+        <button
+          class="layer"
+          [class.active]="store.selectedName() === layer.name"
+          [style.--accent]="layer.accent"
+          (click)="store.select(layer.name)"
+        >
+          <span>{{ layer.name }}</span>
+          <small>{{ layer.file }}</small>
+          <em>→</em>
+        </button>
+      }
+    </div>
+
+    <article class="panel inspector" [style.--accent]="store.selected().accent">
+      <p class="label">NOW INSPECTING</p>
+      
+      <!-- Modern Angular Control Flow: @switch -->
+      <div class="category-wrapper">
+        @switch (store.selected().category) {
+          @case ('Core') {
+            <span class="badge badge-teal">● Category: Core Foundation</span>
+          }
+          @case ('UI') {
+            <span class="badge badge-blue">● Category: User Interface</span>
+          }
+          @case ('Logic') {
+            <span class="badge badge-yellow">● Category: Business Logic & DI</span>
+          }
+          @case ('Navigation') {
+            <span class="badge badge-coral">● Category: Routing & Navigation</span>
+          }
+          @case ('State') {
+            <span class="badge badge-purple">● Category: Reactive State & Signals</span>
+          }
+          @default {
+            <span class="badge">● Category: General Architecture</span>
+          }
+        }
+      </div>
+
+      <div class="number">0{{ store.layers().indexOf(store.selected()) + 1 }}</div>
+      <h2>{{ store.selected().name }}</h2>
+      <p class="summary">{{ store.selected().summary }}</p>
+      <div class="callout">{{ store.selected().detail }}</div>
+
+      <div class="btn-group">
+        <button class="action" (click)="refresh()">↻ Simulate Data Gateway Refresh</button>
+        <button class="action route-action" (click)="openRoutingExample()">
+          Open Routing Example →
+        </button>
+      </div>
+
+      <p class="message" aria-live="polite">{{ message() }}</p>
+
+      <!-- Modern Angular Control Flow: @if -->
+      @if (store.selectedName() === 'Routing') {
+        <div class="route-note">
+          <strong>Routing Highlight:</strong> Use the button above or top navigation to navigate programmatically to <code>/routing-example</code>.
+        </div>
+      }
+    </article>
+  </section>
+
+  <section class="panel flow">
+    <div class="heading">
+      <b>02</b>
+      <div>
+        <h2>One Modern Angular Request Flow</h2>
+        <p>Each boundary has one clear responsibility in a clean architecture.</p>
+      </div>
+    </div>
+    <div class="nodes">
+      <div class="node teal"><strong>Browser</strong><small>URL / Event click</small></div>
+      <span>→</span>
+      <div class="node blue"><strong>Router</strong><small>URL route match</small></div>
+      <span>→</span>
+      <div class="node yellow"><strong>Component</strong><small>Standalone template</small></div>
+      <span>→</span>
+      <div class="node coral"><strong>Service</strong><small>DI & Business logic</small></div>
+      <span>→</span>
+      <div class="node purple"><strong>Signals</strong><small>Reactive UI updates</small></div>
+    </div>
+    <p class="return">Response → Injectable Service updates state → Signals update only affected DOM nodes.</p>
+  </section>
+
+  <section class="cards">
+    <article class="panel card">
+      <b>⌘</b>
+      <h3>Standalone Components</h3>
+      <p>Clean structure without NgModules. Every component imports its own direct dependencies.</p>
+    </article>
+    <article class="panel card">
+      <b>⌁</b>
+      <h3>Dependency Injection</h3>
+      <p>Services marked with <code>@Injectable(&#123; providedIn: 'root' &#125;)</code> provide clean decoupling.</p>
+    </article>
+    <article class="panel card">
+      <b>✓</b>
+      <h3>Modern Control Flow</h3>
+      <p>Native template blocks <code>&#64;if</code>, <code>&#64;for</code>, and <code>&#64;switch</code> replace legacy directives.</p>
+    </article>
+  </section>
+</main>

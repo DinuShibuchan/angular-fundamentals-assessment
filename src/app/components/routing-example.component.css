@@ -1,0 +1,171 @@
+.page {
+  margin: auto;
+  max-width: 1120px;
+  padding: 44px 28px 64px;
+}
+
+.hero {
+  margin-bottom: 26px;
+}
+
+.eyebrow {
+  color: #fb7185;
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.16em;
+  margin: 0 0 10px;
+}
+
+h1 {
+  color: #f8fafc;
+  font-size: clamp(2.2rem, 4.5vw, 4.2rem);
+  letter-spacing: -0.05em;
+  line-height: 1.05;
+  margin: 0;
+}
+
+h1 span {
+  color: #fb7185;
+}
+
+.lede {
+  color: #a9bad0;
+  line-height: 1.65;
+  font-size: 1.05rem;
+  margin: 16px 0;
+  max-width: 680px;
+}
+
+.panel {
+  background: linear-gradient(145deg, #182840, #111b2d);
+  border: 1px solid #2a4261;
+  border-radius: 18px;
+  box-shadow: 0 16px 36px #02061755;
+}
+
+.route-card {
+  max-width: 800px;
+  padding: 28px;
+}
+
+.card-header {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+}
+
+.badge {
+  display: inline-block;
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 5px 12px;
+  border-radius: 6px;
+}
+
+.badge-coral {
+  background: #881337;
+  color: #fda4af;
+  border: 1px solid #f43f5e;
+}
+
+.badge-teal {
+  background: #134e4a;
+  color: #2dd4bf;
+  border: 1px solid #14b8a6;
+}
+
+h3 {
+  color: #f1f5f9;
+  font-size: 1.05rem;
+  margin: 0 0 10px;
+}
+
+pre {
+  background: #0b1425;
+  border-left: 4px solid #60a5fa;
+  border-radius: 0 10px 10px 0;
+  color: #d2e0ee;
+  margin: 14px 0 22px;
+  overflow: auto;
+  padding: 16px;
+  font-size: 0.88rem;
+  line-height: 1.5;
+}
+
+code {
+  color: #90ddf7;
+  font-family: monospace;
+}
+
+.state-box {
+  background: #0c182c;
+  border: 1px solid #1e3a8a;
+  border-radius: 10px;
+  padding: 16px;
+  margin-bottom: 22px;
+}
+
+.state-box h4 {
+  color: #93c5fd;
+  margin: 0 0 8px;
+  font-size: 0.92rem;
+}
+
+.state-box p {
+  color: #e2e8f0;
+  margin: 0 0 6px;
+  font-size: 0.88rem;
+}
+
+.state-box strong {
+  color: #2dd4bf;
+}
+
+.state-box small {
+  color: #94a3b8;
+  font-size: 0.76rem;
+}
+
+.navigation-actions {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.action {
+  background: #203552;
+  border: 1px solid #395675;
+  border-radius: 8px;
+  color: #eff8ff;
+  display: inline-flex;
+  align-items: center;
+  font-weight: 700;
+  font-size: 0.84rem;
+  padding: 10px 16px;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.action:hover {
+  border-color: #2dd4bf;
+  background: #274163;
+}
+
+.action-outline {
+  background: transparent;
+  border-color: #60a5fa;
+  color: #93c5fd;
+}
+
+.action-outline:hover {
+  background: #1e3a8a33;
+  border-color: #93c5fd;
+}
+
+@media (max-width: 760px) {
+  .page {
+    padding: 30px 16px;
+  }
+}
